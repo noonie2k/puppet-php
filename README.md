@@ -1,4 +1,4 @@
-# PHP module 0.1.0
+# PHP module
 
 https://github.com/jonono/puppet-php
 
