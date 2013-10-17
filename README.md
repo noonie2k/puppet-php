@@ -8,41 +8,41 @@ This module installs PHP from your local package provider. It wraps around the P
 
 ## Requires:
 
-puppetlabs/stdlib - https://github.com/puppetlabs/puppetlabs-stdlib
-treehouseagency/pear - https://github.com/treehouseagency/puppet-pear
+* puppetlabs/stdlib - https://github.com/puppetlabs/puppetlabs-stdlib
+* treehouseagency/pear - https://github.com/treehouseagency/puppet-pear
 
 ## Examples
 
 ### Install php
 
-  class { 'php': }
+    class { 'php': }
 
 ### Install php and friends
 
-  class { 'php':
-    package_name   => [ 'php5', 'php5-mysql', 'php5-memcached' ],
-    package_ensure => latest,
-  }
+    class { 'php':
+      package_name   => [ 'php5', 'php5-mysql', 'php5-memcached' ],
+      package_ensure => latest,
+    }
 
 ### Install php and modify its apache php.ini in some way
 
-  class { 'php':
-    apache_ini_changes => {
-      'apache-session-stanza-changes' => {
-        'stanza' => 'session',
-        'changes' => [ 'set session.something 1',
-                       'set session.somethingelse 999',
-                     ],
+    class { 'php':
+      apache_ini_changes => {
+        'apache-session-stanza-changes' => {
+          'stanza' => 'session',
+          'changes' => [ 'set session.something 1',
+                         'set session.somethingelse 999',
+                       ],
+        },
       },
-    },
-  }
+    }
 
 ### Install and configure a pecl extension
 
-  php::extension { 'APC':
-    repository   => 'pecl.php.net',
-    config       => [ 'set apc.enabled 1' ],
-  }
+    php::extension { 'APC':
+      repository   => 'pecl.php.net',
+      config       => [ 'set apc.enabled 1' ],
+    }
 
 ## Justifications, Rationalizations, Caveats, etc
 I realize this could obviously be a lot cleaner. Especially the "ini_changes" parameters. Because of the way php ini files are stanza'd, changing multiple lines in multiple stanzas requires multiple augeas {} resources because the config parameters will live in different contexts. I'm doing a create_resources with that hash which is why it looks the way it does.
