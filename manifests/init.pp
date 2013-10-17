@@ -13,11 +13,12 @@
 class php (
   $package_name       = $::php::params::package_name,
   $package_ensure     = $::php::params::package_ensure,
+  $extensions_path    = $::php::params::extensions_path,
+  $symlinks_path      = $::php::params::symlinks_path,
   $apache_ini_path    = $::php::params::apache_ini_path,
   $cli_ini_path       = $::php::params::cli_ini_path,
   $apache_ini_changes = undef,
   $cli_ini_changes    = undef,
-
 ) inherits ::php::params {
 
   include ::stdlib
