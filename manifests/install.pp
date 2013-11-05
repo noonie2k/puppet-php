@@ -1,7 +1,6 @@
 class php::install inherits php {
 
-  package { 'php':
-    name   => $package_name,
+  package { $package_name:
     ensure => $package_ensure,
   }
 
