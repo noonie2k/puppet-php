@@ -1,8 +1,9 @@
 define php::extension (
-  $extension_name    = $name,
-  $extension_version = 'latest',
-  $repository        = 'pear.php.net',
-  $config            = undef,
+  $extension_name     = $name,
+  $extension_version  = 'latest',
+  $repository         = 'pear.php.net',
+  $config             = undef,
+  $so_config          = undef,
 ) {
 
   include ::stdlib
@@ -33,9 +34,13 @@ define php::extension (
     require => File["${extensions_path}/${dc_extension_name}.ini"],
   }
 
+  if ($so_config == undef) {
+    $so_config = "set extension ${dc_extension_name}.so",
+  }
+
   ::php::extension::config { "${dc_extension_name}-config-so":
     file => "${extensions_path}/${dc_extension_name}.ini",
-    changes => "set extension ${dc_extension_name}.so",
+    changes => $so_config,
   }
 
   if is_array($config) {
