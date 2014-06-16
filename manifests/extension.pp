@@ -3,6 +3,7 @@ define php::extension (
   $extension_version = 'latest',
   $repository        = 'pear.php.net',
   $config            = undef,
+  $extension_type    = 'extension'
 ) {
 
   include ::stdlib
@@ -35,7 +36,7 @@ define php::extension (
 
   ::php::extension::config { "${dc_extension_name}-config-so":
     file => "${extensions_path}/${dc_extension_name}.ini",
-    changes => "set extension ${dc_extension_name}.so",
+    changes => "set ${extension_type} ${dc_extension_name}.so",
   }
 
   if is_array($config) {
