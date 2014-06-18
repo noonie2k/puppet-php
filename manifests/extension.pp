@@ -1,9 +1,9 @@
 define php::extension (
-  $extension_name     = $name,
-  $extension_version  = 'latest',
-  $repository         = 'pear.php.net',
-  $config             = undef,
-  $so_config          = undef,
+  $extension_name    = $name,
+  $extension_version = 'latest',
+  $repository        = 'pear.php.net',
+  $config            = undef,
+  $so_config         = undef,
 ) {
 
   include ::stdlib
@@ -34,13 +34,18 @@ define php::extension (
     require => File["${extensions_path}/${dc_extension_name}.ini"],
   }
 
-  if ($so_config == undef) {
-    $so_config = "set extension ${dc_extension_name}.so"
-  }
-
-  ::php::extension::config { "${dc_extension_name}-config-so":
-    file => "${extensions_path}/${dc_extension_name}.ini",
-    changes => $so_config,
+  # some extensions dont expect extension=<name>.so in the ini file.
+  # this switch allows you to use so_config to workaround that
+  if $so_config == undef {
+    ::php::extension::config { "${dc_extension_name}-config-so":
+      file => "${extensions_path}/${dc_extension_name}.ini",
+      changes => "set extension ${dc_extension_name}.so",
+    }
+  } else {
+    ::php::extension::config { "${dc_extension_name}-config-so":
+      file => "${extensions_path}/${dc_extension_name}.ini",
+      changes => [ $so_config, 'rm extension' ]
+    }
   }
 
   if is_array($config) {
