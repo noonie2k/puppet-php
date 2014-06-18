@@ -35,7 +35,7 @@ define php::extension (
   }
 
   if ($so_config == undef) {
-    $so_config = "set extension ${dc_extension_name}.so",
+    $so_config = "set extension ${dc_extension_name}.so"
   }
 
   ::php::extension::config { "${dc_extension_name}-config-so":
