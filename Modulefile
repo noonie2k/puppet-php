@@ -1,4 +1,4 @@
-name 'noonie2k-php'
+name 'noonie2k-my_php'
 version '0.2.0'
 source 'git://github.com/noonie2k/puppet-php.git'
 author 'noonie2k'
