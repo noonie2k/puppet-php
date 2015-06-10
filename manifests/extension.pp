@@ -1,4 +1,4 @@
-define php::extension (
+define my_php::extension (
   $extension_name    = $name,
   $extension_version = 'latest',
   $repository        = 'pear.php.net',
@@ -7,15 +7,15 @@ define php::extension (
 ) {
 
   include ::stdlib
-  include ::php
-  include ::php::params
-  include ::pear
+  include ::my_php
+  include ::my_php::params
+  include ::my_pear
 
-  $extensions_path = $::php::params::extensions_path
-  $symlinks_path   = $::php::params::symlinks_path
+  $extensions_path = $::my_php::params::extensions_path
+  $symlinks_path   = $::my_php::params::symlinks_path
   $dc_extension_name = downcase($extension_name)
 
-  ::pear::package { $extension_name:
+  ::my_pear::package { $extension_name:
     version => $extension_version,
     repository => $repository,
   }
@@ -37,29 +37,29 @@ define php::extension (
   # some extensions dont expect extension=<name>.so in the ini file.
   # this switch allows you to use so_config to workaround that
   if $so_config == undef {
-    ::php::extension::config { "${dc_extension_name}-config-so":
+    ::my_php::extension::config { "${dc_extension_name}-config-so":
       file => "${extensions_path}/${dc_extension_name}.ini",
       changes => "set extension ${dc_extension_name}.so",
     }
   } else {
-    ::php::extension::config { "${dc_extension_name}-config-so":
+    ::my_php::extension::config { "${dc_extension_name}-config-so":
       file => "${extensions_path}/${dc_extension_name}.ini",
       changes => [ $so_config, 'rm extension' ]
     }
   }
 
   if is_array($config) {
-    ::php::extension::config { "${dc_extension_name}-config":
+    ::my_php::extension::config { "${dc_extension_name}-config":
       file => "${extensions_path}/${dc_extension_name}.ini",
       changes => $config,
     }
   }
 
-  Class['php'] ->
-  Class['pear'] ->
-  Pear::Package[$extension_name] ->
+  Class['my_php'] ->
+  Class['my_pear'] ->
+  My_pear::Package[$extension_name] ->
   File["${extensions_path}/${dc_extension_name}.ini"] ->
   File["${symlinks_path}/20-${dc_extension_name}.ini"] ->
-  Php::Extension::Config <| |>
+  My_php::Extension::Config <| |>
 
 }

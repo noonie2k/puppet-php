@@ -15,18 +15,18 @@ This module installs PHP from your local package provider. It wraps around the P
 
 ### Install php
 
-    class { 'php': }
+    class { 'my_php': }
 
 ### Install php and friends
 
-    class { 'php':
+    class { 'my_php':
       package_name   => [ 'php5', 'php5-mysql', 'php5-memcached' ],
       package_ensure => latest,
     }
 
 ### Install php and modify its apache php.ini in some way
 
-    class { 'php':
+    class { 'my_php':
       apache_ini_changes => {
         'apache-session-stanza-changes' => {
           'stanza'  => 'session',
@@ -39,14 +39,14 @@ This module installs PHP from your local package provider. It wraps around the P
 
 ### Install and configure a pecl extension
 
-    php::extension { 'APC':
+    my_php::extension { 'APC':
       repository => 'pecl.php.net',
       config     => [ 'set apc.enabled 1' ],
     }
 
 ### Install and configure a zendextension (for example)
 
-    php::extension { 'zendopcache':
+    my_php::extension { 'zendopcache':
       repository => 'pecl.php.net',
       so_config  => 'set zend_extension /usr/lib/php5/20100525/opcache.so'
     }

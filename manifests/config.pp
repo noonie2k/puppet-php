@@ -1,4 +1,4 @@
-define php::config($file, $stanza, $changes) {
+define my_php::config($file, $stanza, $changes) {
 
   augeas { "${file}-${name}":
     context => "/files${file}/${stanza}",

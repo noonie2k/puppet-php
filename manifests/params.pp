@@ -1,4 +1,4 @@
-class php::params {
+class my_php::params {
 
   $package_name    = 'php5'
   $package_ensure  = 'latest'
